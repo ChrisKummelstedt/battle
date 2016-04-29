@@ -14,18 +14,15 @@ class Battle < Sinatra::Base
   end
 
   post '/names' do
-    # if params[:gametype] == "false"
-    #   player_2 = Fighter.new("Robot")
-    #   player_1 = Fighter.new(params[:player_1_name])
-    # else
-      player_1 = Fighter.new(params[:player_1_name])
-      player_2 = Fighter.new(params[:player_2_name])
-    # end
+    player_1 = Fighter.new(params[:player_1_name])
+    player_2 = Fighter.new(params[:player_2_name])
     Game.create player_1, player_2, params[:gametype]
     redirect '/play'
   end
 
   get '/play' do
+    @game.attack(@game.opponent) if @game.game_type == false && @game.opponent == @game.player_1
+    redirect '/attack' if @game.game_type == false && @game.opponent == @game.player_1
     erb :play
   end
 
@@ -33,6 +30,12 @@ class Battle < Sinatra::Base
   get '/attack' do
     @game.attack(@game.opponent)
     return erb :attack unless @game.game_over?
+    return redirect '/death' if @game.game_over?
+  end
+
+  get '/whirlwind' do
+    @game.whirlwind(@game.opponent)
+    return erb :whirlwind unless @game.game_over?
     return redirect '/death' if @game.game_over?
   end
 

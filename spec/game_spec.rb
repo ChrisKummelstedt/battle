@@ -6,9 +6,9 @@ describe Game do
   let(:mittens) {double :mittens, name: nil}
   let(:winner) {double :winner, hp: 1, name: nil}
   let(:looser) {double :looser, hp: 0, name: nil}
-  subject(:game) {described_class.new slasher, mittens, true}
-  subject(:game_over) {described_class.new winner, looser, true}
-  subject(:sp_game) {described_class.new slasher, mittens, false}
+  subject(:game) {described_class.new slasher, mittens, "true"}
+  subject(:game_over) {described_class.new winner, looser, "true"}
+  subject(:sp_game) {described_class.new slasher, mittens, "false"}
 
   it "initalizes with two fighter instances" do
       expect(game.player_1).to eq slasher
@@ -32,7 +32,7 @@ describe Game do
   end
 
   it 'knows the game type' do
-    allow(mittens).to receive(:name).and_return("Mittens")
+    allow(mittens).to receive(:name=).and_return("Mittens")
     expect(sp_game.game_type).to eq false
   end
 

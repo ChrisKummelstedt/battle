@@ -14,6 +14,11 @@ class Game
 		opponent.receive_damage
 	end
 
+	def whirlwind opponent
+		seed = Random.new.rand(2)
+    seed == 0 ? @hp = @hp : opponent.receive_whirlwind_damage
+	end
+
 	def switch_turn
 		@current_player = @opponent
 		@opponent = player_1 if @current_player == player_2
